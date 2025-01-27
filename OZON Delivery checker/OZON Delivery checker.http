@@ -1,0 +1,6 @@
+@OZON_Delivery_checker_HostAddress = http://localhost:5082
+
+GET {{OZON_Delivery_checker_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

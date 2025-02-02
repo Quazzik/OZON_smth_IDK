@@ -11,12 +11,11 @@ public class TrackingDBService
         _dbContext = dbContext;
     }
 
-    public async Task<RequestRecord> GetRequestRecordFromDbAsync(string trackingNumber)
+    public async Task<RequestRecord?> GetRequestRecordFromDbAsync(string trackingNumber)
     {
         return await _dbContext.RequestRecords
-            .Where(r => r.TrackingNumber == trackingNumber)
-            .OrderByDescending(r => r.Id)
-            .FirstOrDefaultAsync();
+            .OrderByDescending(r => r.LastFetchedAt)
+            .FirstOrDefaultAsync(r => r.TrackingNumber == trackingNumber);
     }
 
     public async Task<List<RequestEvent>> GetRequestEventsFromDbAsync(int requestRecordId)

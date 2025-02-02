@@ -26,12 +26,10 @@ namespace OZON_Delivery_checker.Controllers
             {
                 var existingRequestRecord = await _trackingDbService.GetRequestRecordFromDbAsync(trackingNumber);
 
-                if (existingRequestRecord.LastFetchedAt.HasValue &&
-                    DateTime.UtcNow - existingRequestRecord.LastFetchedAt.Value < TimeSpan.FromMinutes(1))
+                if (existingRequestRecord != null
+                    && (existingRequestRecord.LastFetchedAt.HasValue
+                    && DateTime.UtcNow - existingRequestRecord.LastFetchedAt.Value < TimeSpan.FromMinutes(1)))
                 {
-                    var a = DateTime.UtcNow - DateTime.Parse(existingRequestRecord.DeliveryDateBegin);
-                    var b = TimeSpan.FromMinutes(1);
-
                     _logger.LogInformation($"ƒанные дл€ {trackingNumber} вз€ты из локальной базы данных ");
 
                     var existingRequestEvents = await _trackingDbService.GetRequestEventsFromDbAsync(existingRequestRecord.Id);
